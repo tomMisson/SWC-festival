@@ -8,8 +8,10 @@ const {google} = require('googleapis');
 const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
 const TOKEN_PATH = 'token.json';
 
+
+//GOOGLE sheets API auth functions
 function authorize(credentials, callback) {
-    const {client_secret, client_id, redirect_uris} = credentials.installed;
+    const {client_secret, client_id, redirect_uris} = credentials.web;
     const oAuth2Client = new google.auth.OAuth2(
         client_id, client_secret, redirect_uris[0]);
   
@@ -34,11 +36,11 @@ function getNewToken(oAuth2Client, callback) {
     rl.question('Enter the code from that page here: ', (code) => {
       rl.close();
       oAuth2Client.getToken(code, (err, token) => {
-        if (err) return console.error('Error while trying to retrieve access token', err);
+        if (err) return console.error('Error while trying to retrieve access token', err.response.status);
         oAuth2Client.setCredentials(token);
         // Store the token to disk for later program executions
         fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
-          if (err) return console.error(err);
+          if (err) return console.error(err.response.status);
           console.log('Token stored to', TOKEN_PATH);
         });
         callback(oAuth2Client);
@@ -46,7 +48,8 @@ function getNewToken(oAuth2Client, callback) {
     });
 }
 
-function listMajors(auth) {
+//Action to happen 
+function addRowToSheet(auth) {
     const sheets = google.sheets({version: 'v4', auth});
     sheets.spreadsheets.values.get({
       spreadsheetId: '1-FHya5R48l6bNM4dSWZgwvBOasjp30fEtQ7cFr4PlJ4',
@@ -75,7 +78,7 @@ app.get('/', (req,res)=>{
     fs.readFile('credentials.json', (err, content) => {
         if (err) return console.log('Error loading client secret file:', err);
         // Authorize a client with credentials, then call the Google Sheets API.
-        authorize(JSON.parse(content), listMajors);
+        authorize(JSON.parse(content), addRowToSheet);
     });
 })
 
