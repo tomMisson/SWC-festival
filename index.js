@@ -12,9 +12,17 @@ app.get('/', (req,res)=>{
 })
 
 app.post('/orders', async (req,res)=>{
-    let webhookData = req.body;
 
-    tableSvc.insertEntity('orders',webhookData, function (error, result, response) {
+    let {order,} = req.body
+
+    let dataToSave = {
+        PartitionKey: {'_':'hometasks'},
+        RowKey: {'_': '1'},
+        description: {'_':'Wash the dishes'},
+        dueDate: {'_':new Date(2015, 6, 20)}
+    }
+
+    tableSvc.insertEntity('orders',dataToSave, function (error, result, response) {
         if(!error){
           res.sendStatus(200)
         }
