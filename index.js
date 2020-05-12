@@ -8,18 +8,21 @@ app.use(express.json())
 var tableSvc = azure.createTableService('swforders', process.env.KEY);
 
 app.get('/', (req,res)=>{
-    res.sendStatus(200)
+    res.sendStatus(200);
 })
 
 app.post('/orders', async (req,res)=>{
 
-    let {order,} = req.body
+    let data = req.body
+
+    let customer = JSON.stringify(data.shipping)
+    let items = JSON.stringify(data.line_items)
+
 
     let dataToSave = {
-        PartitionKey: {'_':'hometasks'},
-        RowKey: {'_': '1'},
-        description: {'_':'Wash the dishes'},
-        dueDate: {'_':new Date(2015, 6, 20)}
+        PartitionKey: {'_':data.id},
+        shippingInfo: {'_':customer},
+        orderedItems: {'_':items},
     }
 
     tableSvc.insertEntity('orders',dataToSave, function (error, result, response) {
@@ -29,7 +32,6 @@ app.post('/orders', async (req,res)=>{
         else
             res.json(error)
     });
-    
 })
 
 app.listen(process.env.PORT, console.log(`App running on ${process.env.PORT}`))
