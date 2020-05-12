@@ -20,7 +20,8 @@ app.post('/orders', async (req,res)=>{
 
 
     let dataToSave = {
-        PartitionKey: {'_':data.id},
+        PartitionKey: {'_':data.number},
+        RowKey: {'_':data.number},
         shippingInfo: {'_':customer},
         orderedItems: {'_':items},
     }
