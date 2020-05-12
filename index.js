@@ -85,7 +85,7 @@ app.get('/', (req,res)=>{
 })
 
 app.post('/orders', async (req,res)=>{
-    res.json({"hook": req.body})
+    console.log(req.body)
 })
 
 app.listen(process.env.PORT, console.log(`App running on ${process.env.PORT}`))
