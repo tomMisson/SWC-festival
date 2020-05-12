@@ -75,15 +75,17 @@ var app = express()
 app.use(express.json())
 
 app.get('/', (req,res)=>{
-    fs.readFile('credentials.json', (err, content) => {
-        if (err) return console.log('Error loading client secret file:', err);
-        // Authorize a client with credentials, then call the Google Sheets API.
-        authorize(JSON.parse(content), addRowToSheet);
-    });
+    // fs.readFile('credentials.json', (err, content) => {
+    //     if (err) return console.log('Error loading client secret file:', err);
+    //     // Authorize a client with credentials, then call the Google Sheets API.
+    //     authorize(JSON.parse(content), addRowToSheet);
+    // });
+
+    res.json({"response": req.body})
 })
 
 app.post('/orders', async (req,res)=>{
-    console.log(res.body)
+    res.json({"hook": req.body})
 })
 
 app.listen(process.env.PORT, console.log(`App running on ${process.env.PORT}`))
