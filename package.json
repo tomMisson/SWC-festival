@@ -1,0 +1,25 @@
+{
+  "name": "swc-festival",
+  "version": "1.0.0",
+  "description": "Webhook to handle order fulfillment",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomMisson/SWC-festival.git"
+  },
+  "author": "Tom Misson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tomMisson/SWC-festival/issues"
+  },
+  "homepage": "https://github.com/tomMisson/SWC-festival#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.3"
+  }
+}
