@@ -26,16 +26,19 @@ app.post('/orders', async (req,res)=>{
     
     data = req.body;
 
-    let customer = JSON.stringify(data.shipping)
+    let customer = data.shipping.first_name+ " " + data.shipping.last_name + " " + data.billing.email + " " + data.billing.phone 
+    let shipping =  data.shipping.address_1+ ", " + data.shipping.address_2 + ", " + data.shipping.city + ", " + data.shipping.state + ", " + data.shipping.postcode
     let items = data.line_items 
 
     for(var i=0; i<items.length; i++)
     {
+        let currentItem = items[i].name + " x" + items[i].quantity + " @  £"+ items[i].price + " = "+ items[i].total
         let dataToSave = {
             PartitionKey: {'_':data.number},
             RowKey: {'_':i+""},
-            shippingInfo: {'_':customer},
-            orderedItems: {'_':JSON.stringify(items[i])},
+            customerdetails: {'_': customer},
+            shippingInfo: {'_':shipping},
+            orderedItems: {'_':currentItem},
         }
 
         tableSvc.insertEntity('orders',dataToSave, function (error, result, response) {
