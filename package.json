@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/tomMisson/SWC-festival#readme",
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "azure-storage": "^2.10.3",
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
